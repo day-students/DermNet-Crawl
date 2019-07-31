@@ -115,7 +115,7 @@ if args.all:
 
     for type_link in type_links:
         load_type(urljoin('http://www.dermnet.com/dermatology-pictures-skin-disease-pictures/', type_link['href']), Path('data/all'))
-else:
+elif args.dis:
 
     try:
         os.mkdir('data/disease')
@@ -141,7 +141,8 @@ else:
             if (mat):
                 load_photos(disease_link.text, urljoin('http://www.dermnet.com/dermatology-pictures-skin-disease-pictures/', disease_link['href']), ree_path)
                 break
-
+else:
+    parser.print_help()
 
 end = time.time()
 print(f'Finished in {end - start} seconds')

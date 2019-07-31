@@ -1,5 +1,7 @@
 nz
 .ipynb_checkpoints
 
-!/**/eczema/*
-data/*
+data/all
+data/disease/*
+
+!/**/eczema

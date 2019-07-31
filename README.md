@@ -1,5 +1,5 @@
 # DermNet-Crawl
-Fetches images from DermNet
+Fetches images from DermNet and DermNet New Zealand
 
 ## Requirements
 
@@ -7,6 +7,8 @@ Fetches images from DermNet
  - [BeautifulSoup (bs4)](https://www.crummy.com/software/BeautifulSoup/)
 
 ## Usage
+
+Both derm.py and derm-nz.py can be used in the same way.
 
 `derm.py [-h] [--all] [--dis DIS [DIS ...]]`
  - `--help` - prints the help message

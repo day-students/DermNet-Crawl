@@ -100,9 +100,9 @@ elif args.dis:
     local_path = Path('nz/disease')
     mkdir(local_path)
 
-    rees = [re.compile(f'({r}).*( images)') for r in args.dis]
+    rees = [re.compile(f'({r})( images)', re.IGNORECASE) for r in args.dis]
 
-    ree_paths = [(Path('nz/disease') / ''.join(c for c in r if c not in ('#%&{}\<>*?/ $!\'\":@'))) for r in args.dis]
+    ree_paths = [(Path('nz/disease') / ''.join(c for c in r if c not in ('#%&{}\<>*?/ $!\'\":@.'))) for r in args.dis]
 
     for ree_path in ree_paths:
         mkdir(ree_path)
@@ -111,7 +111,6 @@ elif args.dis:
         links = soup.find_all('a', string=ree)
         for link in links:
             load_disease(urljoin(base_path, link['href']), ree_path)
-            break
 else:
     parser.print_help()
 

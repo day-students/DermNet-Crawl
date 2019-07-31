@@ -1,4 +1,6 @@
-nz
+nz/all
+nz/disease/*
+
 .ipynb_checkpoints
 
 data/all

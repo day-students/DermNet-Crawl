@@ -5,3 +5,5 @@ data/all
 data/disease/*
 
 !/**/eczema
+!/**/Psoriasis
+!/**/Tinea

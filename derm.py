@@ -31,6 +31,8 @@ def load_photo_r(url, base, page_num):
     print(f'Page {page_num}', end=' ')
     sys.stdout.flush()
 
+    start = time.time()
+
     with urlopen(url) as page:
         soup = BeautifulSoup(page, features='html.parser')
 
@@ -46,7 +48,9 @@ def load_photo_r(url, base, page_num):
         name = link.find('div', class_='desc').text
         download_image(name, href, base)
         
-    print('Done')
+    end = time.time()
+
+    print(f'Done ({end - start} seconds)')
 
     # Download the next photo
     next_a = col_left.find('div', class_='NrResults').find('a', text='Next')
@@ -55,6 +59,7 @@ def load_photo_r(url, base, page_num):
 
 def load_photos(name, url, base):
     print(f'Loading photos of disease {name}')
+    start = time.time()
 
     base = base / name
     try:
@@ -64,9 +69,14 @@ def load_photos(name, url, base):
 
     load_photo_r(url, base, 1)
 
+    end = time.time()
+    print(f'Done ({end - start} seconds)')
+
 # Open a single category
 
 def load_type(url, base):
+    start = time.time()
+
     with urlopen(url) as page:
         soup = BeautifulSoup(page, features='html.parser')
 
@@ -85,6 +95,11 @@ def load_type(url, base):
     for link in links:
         if (link.text not in ('Tes Cate5', 'Test Cat 6')):
             load_photos(link.text, urljoin(url, link['href']), base)
+
+    end = time.time()
+
+    print(f'Done ({end - start} seconds)')
+
 
 parser = ArgumentParser(description='Downloads images from DermNet')
 parser.add_argument('--all', action='store_true', help='Download all files')
@@ -133,14 +148,11 @@ elif args.dis:
         except OSError:
             pass
 
-
-    disease_links = soup.find('div', class_='contents').find_all('table')[1].find_all('a')
-    for disease_link in disease_links:
-        for ree, ree_path in zip(rees, ree_paths):
-            mat = ree.match(disease_link.text)
-            if (mat):
-                load_photos(disease_link.text, urljoin('http://www.dermnet.com/dermatology-pictures-skin-disease-pictures/', disease_link['href']), ree_path)
-                break
+    table = soup.find('div', class_='contents').find_all('table')[1]
+    for ree, ree_path in zip(rees, ree_paths):
+        disease_links = table.find_all('a', string=ree)
+        for disease_link in disease_links:
+            load_photos(disease_link.text, urljoin('http://www.dermnet.com/dermatology-pictures-skin-disease-pictures/', disease_link['href']), ree_path)
 else:
     parser.print_help()
 
